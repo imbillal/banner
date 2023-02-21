@@ -1,6 +1,10 @@
 import React, {useState, useContext} from "react";
 import {Menu} from "antd";
-import {UploadOutlined, VideoCameraOutlined} from "@ant-design/icons";
+import {
+    UploadOutlined,
+    UnorderedListOutlined,
+    VideoCameraOutlined,
+} from "@ant-design/icons";
 import {
     SidebarWrap,
     SidebaMenuItems,
@@ -48,6 +52,13 @@ function Sidebar() {
                         <UploadOutlined className="icon" />
                         <span> Shape</span>
                     </Menu.Item>
+                    <Menu.Item
+                        title="Layouts"
+                        onClick={() => handleComponentType("layout")}
+                    >
+                        <UnorderedListOutlined className="icon" />
+                        <span> Layouts</span>
+                    </Menu.Item>
                 </CustomMenu>
             </SidebaMenuItems>
             <RenderSidebarComponent
@@ -61,10 +72,9 @@ function Sidebar() {
 }
 
 const RenderSidebarComponent = ({children, type, collapsed, ...rest}) => {
-    console.log("billal", {collapsed});
     const Component = components[type];
     return (
-        <SideBarComponent collapsed={collapsed}>
+        <SideBarComponent collapsed={!Component || collapsed}>
             {Component && children}
             {Component && <Component {...rest} />}
         </SideBarComponent>
