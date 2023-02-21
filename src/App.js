@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from "react";
+import {
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+    UploadOutlined,
+    UserOutlined,
+    VideoCameraOutlined,
+} from "@ant-design/icons";
+import {Layout} from "antd";
+import Navigation from "./components/Navigation";
+import Sidebar from "./Sidebar";
+import MainContainer from "./MainContent";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [collapsed, setCollapsed] = useState(false);
+    // const {
+    //     token: {colorBgContainer},
+    // } = theme.useToken();
+
+    return (
+        <>
+            <Navigation />
+
+            <Layout style={{flexDirection: "row"}}>
+                <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+                <MainContainer
+                    collapsed={collapsed}
+                    setCollapsed={setCollapsed}
+                />
+            </Layout>
+        </>
+    );
+};
 
 export default App;
