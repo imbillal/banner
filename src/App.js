@@ -10,25 +10,26 @@ import {Layout} from "antd";
 import Navigation from "./components/Navigation";
 import Sidebar from "./Sidebar";
 import MainContainer from "./MainContent";
+import {EditorContextProvider} from "./context/elementContext";
 
 const App = () => {
-    const [collapsed, setCollapsed] = useState(false);
-    // const {
-    //     token: {colorBgContainer},
-    // } = theme.useToken();
+    const [state, setstate] = useState({
+        collapsed: true,
+    });
+
+    const handleUpdateState = (value) => {
+        console.log("bilall", {value});
+        setstate((prev) => ({...prev, ...value}));
+    };
 
     return (
-        <>
+        <EditorContextProvider value={{handleUpdateState, state}}>
             <Navigation />
-
             <Layout style={{flexDirection: "row"}}>
-                <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-                <MainContainer
-                    collapsed={collapsed}
-                    setCollapsed={setCollapsed}
-                />
+                <Sidebar />
+                <MainContainer />
             </Layout>
-        </>
+        </EditorContextProvider>
     );
 };
 
