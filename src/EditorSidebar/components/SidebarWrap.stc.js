@@ -11,3 +11,5 @@ export const SidebarWrap = styled.div`
     max-width: 200px;
     height: calc(100vh - 46px);
 `;
+
+export const StyleWrapper = styled.div``;

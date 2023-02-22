@@ -36,6 +36,10 @@ const RenderComponent = ({element, isSelected, onSelect, onChange}) => {
                         y: e.target.y(),
                     });
                 }}
+                onDragMove={(e) => {
+                    e.target.x(Math.round(e.target.x() / 10) * 10);
+                    e.target.y(Math.round(e.target.y() / 10) * 10);
+                }}
                 onTransformEnd={(e) => {
                     const node = shapeRef.current;
                     const scaleX = node.scaleX();
