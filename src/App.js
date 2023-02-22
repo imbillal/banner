@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useRef, useEffect, useState} from "react";
 import {Layout} from "antd";
 import Navigation from "./components/Navigation";
 import Sidebar from "./Sidebar";
@@ -16,14 +16,16 @@ const App = () => {
                 <Sidebar />
                 <MainContainer />
             </Layout>
-            <Preview />
         </>
     );
 };
 
 const AppComp = () => {
     const [state, setstate] = useState({
+        loading: true,
         collapsed: true,
+        currentBlock: null,
+        isSidebarActive: false,
         canvasStyle: {
             width: 800,
             height: 400,
@@ -35,8 +37,45 @@ const AppComp = () => {
     const handleUpdateState = (value) => {
         setstate((prev) => ({...prev, ...value}));
     };
+
+    const updateElement = (elements) => {
+        setstate((prev) => ({...prev, elements}));
+        localStorage.setItem("_elements", JSON.stringify(elements));
+    };
+    const updateCurrentBlock = (currentBlock) => {
+        setstate((prev) => ({...prev, currentBlock}));
+    };
+    const setCurrentBlock = (value) => {
+        setstate((prev) => ({...prev, currentBlock: value}));
+    };
+
+    useEffect(() => {
+        const elements = JSON.parse(localStorage.getItem("_elements")) || [];
+        const previewUrl = JSON.parse(
+            localStorage.getItem("_previewUrl" || null)
+        );
+        setstate((prev) => ({...prev, previewUrl, elements, loading: false}));
+    }, []);
+
+    useEffect(() => {
+        state.previewUrl &&
+            localStorage.setItem(
+                "_previewUrl",
+                JSON.stringify(state.previewUrl)
+            );
+    }, [state.previewUrl]);
+
     return (
-        <EditorContextProvider value={{handleUpdateState, state, canvasRef}}>
+        <EditorContextProvider
+            value={{
+                handleUpdateState,
+                updateCurrentBlock,
+                updateElement,
+                setCurrentBlock,
+                state,
+                canvasRef,
+            }}
+        >
             <Router>
                 <Switch>
                     <Route exact path="/" component={App} />

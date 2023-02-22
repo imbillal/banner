@@ -7,10 +7,12 @@ export const NavWrap = styled(Layout.Header)`
     border-bottom: 2px solid #dedede;
     .nav-item {
         border-right: 1px solid #ddd;
+        padding: 0 10px;
     }
     .nav-item.logo {
+        text-align: center;
         width: 100%;
         border-right: 2px solid #ddd;
-        max-width: 110px;
+        max-width: 88px;
     }
 `;

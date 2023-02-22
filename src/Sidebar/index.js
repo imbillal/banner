@@ -19,7 +19,7 @@ function Sidebar() {
     const {state, handleUpdateState} = useContext(EditorContext);
     const [componentType, setComponentType] = useState();
     const handleComponentType = (type) => {
-        handleUpdateState({collapsed: false});
+        handleUpdateState({isSidebarActive: false, collapsed: false});
         setComponentType(type);
     };
 

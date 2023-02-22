@@ -8,20 +8,26 @@ function Navigation() {
     const history = useHistory();
     const {canvasRef, handleUpdateState} = useContext(EditorContext);
     const handlePreview = async () => {
-        handleUpdateState({previewUrl: canvasRef.current.toDataURL()});
+        await handleUpdateState({currentBlock: null});
+        handleUpdateState({
+            previewUrl: canvasRef.current.toDataURL(),
+        });
         history.push("/preview");
     };
     return (
         <NavWrap>
             <Menu mode="horizontal">
-                <Menu.Item className="nav-item logo">Dorik Logo</Menu.Item>
-                <Menu.Item className="nav-item">
+                <li className="nav-item logo">
+                    <NavLink to="/">Dorik Logo</NavLink>
+                </li>
+                <li className="nav-item">
                     <NavLink to="/">Home</NavLink>
-                </Menu.Item>
-                <Menu.Item className="nav-item">About</Menu.Item>
-                <Menu.Item className="nav-item" onClick={handlePreview}>
-                    Preview
-                </Menu.Item>
+                </li>
+                <li className="nav-item" onClick={handlePreview}>
+                    <NavLink exact to="/">
+                        Preview
+                    </NavLink>
+                </li>
             </Menu>
         </NavWrap>
     );

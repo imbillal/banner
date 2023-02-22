@@ -6,17 +6,21 @@ import {EditorContext} from "../../context/elementContext";
 function ToggleButton() {
     const {state, handleUpdateState} = useContext(EditorContext);
     const Icon = (props) =>
-        state.collapsed ? (
+        state.isSidebarActive && state.currentBlock ? (
             <RightOutlined {...props} />
         ) : (
             <LeftOutlined {...props} />
         );
+
+    const handleClick = () => {
+        handleUpdateState({
+            isSidebarActive: !state.isSidebarActive,
+            currentBlock: null,
+        });
+    };
     return (
         <ToggleWrapper>
-            <Icon
-                onClick={() => handleUpdateState({collapsed: !state.collapsed})}
-                className="trigger icon"
-            />
+            <Icon onClick={handleClick} className="trigger icon" />
         </ToggleWrapper>
     );
 }

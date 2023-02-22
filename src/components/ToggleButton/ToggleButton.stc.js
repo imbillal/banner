@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ToggleWrapper = styled.div`
     position: absolute;
-    right: -20px;
+    left: -20px;
     top: 50%;
     transform: translateY(-50%);
     .icon {
@@ -17,7 +17,7 @@ export const ToggleWrapper = styled.div`
         background: #f4f6f9;
         color: #000;
         border: 2px solid #dedede;
-        border-left: none;
+        border-right: none;
     }
     .icon:hover {
         color: #fff;
