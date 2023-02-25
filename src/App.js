@@ -25,7 +25,6 @@ const AppComp = () => {
         loading: true,
         collapsed: true,
         currentBlock: null,
-        selectedIds: [],
         addedBlockLength: 0,
         isSidebarActive: false,
         canvasStyle: {
@@ -75,7 +74,6 @@ const AppComp = () => {
 
     const updateElement = (elements) => {
         setstate((prev) => ({...prev, elements}));
-        localStorage.setItem("_elements", JSON.stringify(elements));
     };
     const updateCurrentBlock = (currentBlock) => {
         let elements = [...state.elements];
@@ -88,11 +86,18 @@ const AppComp = () => {
     };
 
     useEffect(() => {
-        const elements = JSON.parse(localStorage.getItem("_elements")) || [];
+        const {elements = [], addedBlockLength = 0} =
+            JSON.parse(localStorage.getItem("_elements")) || {};
         const previewUrl = JSON.parse(
             localStorage.getItem("_previewUrl" || null)
         );
-        setstate((prev) => ({...prev, previewUrl, elements, loading: false}));
+        setstate((prev) => ({
+            ...prev,
+            previewUrl,
+            elements,
+            addedBlockLength,
+            loading: false,
+        }));
     }, []);
 
     useEffect(() => {
@@ -102,6 +107,15 @@ const AppComp = () => {
                 JSON.stringify(state.previewUrl)
             );
     }, [state.previewUrl]);
+
+    useEffect(() => {
+        const {elements, addedBlockLength} = state;
+        localStorage.setItem(
+            "_elements",
+            JSON.stringify({elements, addedBlockLength})
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [state.elements, state.addedBlockLength]);
 
     return (
         <EditorContextProvider

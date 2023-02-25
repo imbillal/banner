@@ -1,10 +1,9 @@
 import React, {useState, useContext} from "react";
-import {Tree, Button, Modal, Dropdown} from "antd";
+import {Tree, Button, Modal, Dropdown, Input, message} from "antd";
 import styled from "styled-components";
 import {nanoid} from "nanoid";
 import {EditorContext} from "../../context/elementContext";
 import {defaultElements} from "../../Elements/elementResorce";
-import {CloseOutlined, EllipsisOutlined} from "@ant-design/icons";
 import {LayoutWrapper, Header} from "./Layout.stc";
 const modalData = {
     title: "Add New Element",
@@ -43,7 +42,9 @@ function Layout() {
         updateElement(state.elements.filter((el) => el.id !== id));
     };
 
-    const renderTitle = (item) => {
+    const RenderTitle = ({item}) => {
+        const [slug, setSlug] = useState(item.slug || "");
+        const [isEditing, setIsEditing] = useState(false);
         const items = [
             {
                 key: "delete",
@@ -52,11 +53,41 @@ function Layout() {
                 ),
             },
         ];
+
+        const handleBlur = (value) => {
+            const isSlugMatched = state.elements.find(
+                (item) => item.slug === value
+            );
+
+            if (!isSlugMatched) {
+                setSlug(value);
+                let index = state.elements.findIndex((el) => el.id === item.id);
+                const elements = [...state.elements];
+                elements[index] = {...item, slug: value};
+                updateElement(elements);
+                setIsEditing(false);
+            } else {
+                setIsEditing(false);
+                message.error("Slug is not unique");
+            }
+        };
         return (
-            <div className="title-wrapper">
-                <span className="title" title={item.slug}>
-                    {item.slug}
-                </span>
+            <div
+                className="title-wrapper"
+                onDoubleClick={() => setIsEditing(true)}
+            >
+                {!isEditing ? (
+                    <span className="title" title={item.slug}>
+                        {item.slug}
+                    </span>
+                ) : (
+                    <Input
+                        value={slug}
+                        onChange={({target}) => setSlug(target.value)}
+                        onBlur={({target}) => handleBlur(target.value)}
+                        placeholder="Type Unique id"
+                    />
+                )}
 
                 {/* <Dropdown
                     menu={{items}}
@@ -74,7 +105,7 @@ function Layout() {
             if (Array.isArray(item.content)) {
                 return (
                     <TreeNode
-                        title={() => renderTitle(item)}
+                        title={<RenderTitle item={item} />}
                         key={idx}
                         dataRef={item}
                         parent={data}
@@ -86,7 +117,7 @@ function Layout() {
 
             return (
                 <TreeNode
-                    title={() => renderTitle(item)}
+                    title={<RenderTitle item={item} />}
                     dataRef={item}
                     key={idx}
                     parent={data}
@@ -102,7 +133,9 @@ function Layout() {
         let _element = defaultElements[key];
         _element.slug = `${_element.type}_${currentLength}`;
         _element.id = nanoid(12).toString();
-        const elements = [...state.elements, {..._element}];
+        const elements = [...state.elements];
+        elements[addedBlockLength] = {..._element};
+
         const currentBlock = {
             idx: addedBlockLength,
             data: _element,
