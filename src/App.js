@@ -26,6 +26,7 @@ const AppComp = () => {
         collapsed: true,
         currentBlock: null,
         selectedIds: [],
+        addedBlockLength: 0,
         isSidebarActive: false,
         canvasStyle: {
             width: 800,
@@ -77,7 +78,10 @@ const AppComp = () => {
         localStorage.setItem("_elements", JSON.stringify(elements));
     };
     const updateCurrentBlock = (currentBlock) => {
-        setstate((prev) => ({...prev, currentBlock}));
+        let elements = [...state.elements];
+        elements[currentBlock.idx] = currentBlock.data;
+
+        setstate((prev) => ({...prev, currentBlock, elements}));
     };
     const setCurrentBlock = (value) => {
         setstate((prev) => ({...prev, currentBlock: value}));

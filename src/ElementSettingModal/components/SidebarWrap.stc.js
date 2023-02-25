@@ -1,16 +1,17 @@
 import styled from "styled-components";
 
-export const SidebarWrap = styled.div`
+export const Sidebar = styled.div`
     position: absolute;
     top: 0;
-    right: ${({isSidebarVisible}) => (isSidebarVisible ? 0 : "-320px")};
+    left: ${({isSidebarVisible}) => (isSidebarVisible ? 0 : "-320px")};
     background: #fff;
     transition: all 0.3s;
-    border-left: 2px solid #dedede;
+    border-right: 2px solid #dedede;
     width: 100%;
     max-width: 320px;
+`;
+export const SidebarWrap = styled.div`
     height: calc(100vh - 46px);
-    overflow: hidden;
     overflow-y: auto;
 `;
 

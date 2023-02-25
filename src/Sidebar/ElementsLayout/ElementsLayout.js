@@ -5,6 +5,7 @@ import {nanoid} from "nanoid";
 import {EditorContext} from "../../context/elementContext";
 import {defaultElements} from "../../Elements/elementResorce";
 import {CloseOutlined, EllipsisOutlined} from "@ant-design/icons";
+import {LayoutWrapper, Header} from "./Layout.stc";
 const modalData = {
     title: "Add New Element",
     okText: "Add Element",
@@ -12,7 +13,7 @@ const modalData = {
 const {TreeNode} = Tree;
 
 function Layout() {
-    const {state, updateElement} = useContext(EditorContext);
+    const {state, handleUpdateState, updateElement} = useContext(EditorContext);
     const [modal, setModal] = useState(modalData);
     const getPosition = (path = "") => {
         return Number(path.split("-")[1]);
@@ -53,18 +54,18 @@ function Layout() {
         ];
         return (
             <div className="title-wrapper">
-                <span className="title" title={item.label}>
-                    {item.label}
+                <span className="title" title={item.slug}>
+                    {item.slug}
                 </span>
 
-                <Dropdown
+                {/* <Dropdown
                     menu={{items}}
                     trigger="click"
                     className="action-btn"
                     placement="bottomLeft"
                 >
                     <EllipsisOutlined />
-                </Dropdown>
+                </Dropdown> */}
             </div>
         );
     };
@@ -96,10 +97,21 @@ function Layout() {
         });
 
     const handleAddBlock = (key) => {
-        updateElement([
-            ...state.elements,
-            {...defaultElements[key], id: nanoid(12).toString()},
-        ]);
+        const {addedBlockLength} = state;
+        const currentLength = addedBlockLength + 1;
+        let _element = defaultElements[key];
+        _element.slug = `${_element.type}_${currentLength}`;
+        _element.id = nanoid(12).toString();
+        const elements = [...state.elements, {..._element}];
+        const currentBlock = {
+            idx: addedBlockLength,
+            data: _element,
+        };
+        handleUpdateState({
+            elements,
+            currentBlock,
+            addedBlockLength: currentLength,
+        });
         handleModal();
     };
 
@@ -110,22 +122,19 @@ function Layout() {
         }));
     };
     return (
-        <div>
-            {/* <AntdTree
+        <LayoutWrapper>
+            <Header>Layers</Header>
+            <AntdTree
                 className="antd-custom-tree"
                 onDrop={handleOnDrop}
                 draggable={true}
             >
                 {renderTreeNodes(state.elements)}
-            </AntdTree> */}
-            <Button
-                onClick={() => handleModal(true)}
-                type="primary"
-                ghost
-                block
-            >
-                Add New
+            </AntdTree>
+            <Button onClick={() => handleModal(true)} type="dashed" block>
+                + Add New Block
             </Button>
+
             <AntdModal
                 style={{maxWidth: 300}}
                 {...modal}
@@ -143,7 +152,7 @@ function Layout() {
                     );
                 })}
             </AntdModal>
-        </div>
+        </LayoutWrapper>
     );
 }
 
@@ -162,10 +171,15 @@ const AntdModal = styled(Modal)`
 
 const AntdTree = styled(Tree)`
     margin-bottom: 30px;
+    .ant-tree-treenode,
+    .ant-tree-node-content-wrapper,
+    .ant-tree-node-content-wrapper.ant-tree-node-selected {
+        width: 100%;
+    }
     &.antd-custom-tree .ant-tree-switcher-noop {
         display: none;
     }
-    &.antd-custom-tree .ant-tree-node-content-wrapper .ant-tree-title {
+    /* &.antd-custom-tree .ant-tree-node-content-wrapper .ant-tree-title {
         flex-basis: 100%;
         white-space: nowrap;
         display: inline-block;
@@ -196,6 +210,6 @@ const AntdTree = styled(Tree)`
                 visibility: visible;
             }
         }
-    }
+    } */
 `;
 export default Layout;

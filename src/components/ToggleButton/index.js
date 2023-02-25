@@ -7,15 +7,14 @@ function ToggleButton({type}) {
     const {state, handleUpdateState} = useContext(EditorContext);
     const Icon = (props) =>
         state.isSidebarActive && state.currentBlock ? (
-            <RightOutlined {...props} />
-        ) : (
             <LeftOutlined {...props} />
+        ) : (
+            <RightOutlined {...props} />
         );
 
     const handleClick = () => {
         handleUpdateState({
             isSidebarActive: !state.isSidebarActive,
-            currentBlock: null,
         });
     };
     return (

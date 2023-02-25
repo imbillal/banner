@@ -14,6 +14,7 @@ import {
 import components from "./components";
 import ToggleButton from "../components/ToggleButton";
 import {EditorContext} from "../context/elementContext";
+import ElementsLayout from "./ElementsLayout/ElementsLayout";
 
 function Sidebar() {
     const {state, handleUpdateState} = useContext(EditorContext);
@@ -61,12 +62,13 @@ function Sidebar() {
                     </Menu.Item>
                 </CustomMenu>
             </SidebaMenuItems>
-            <RenderSidebarComponent
+            {/* <RenderSidebarComponent
                 type={componentType}
                 collapsed={state.collapsed}
             >
                 <ToggleButton />
-            </RenderSidebarComponent>
+            </RenderSidebarComponent> */}
+            <ElementsLayout />
         </SidebarWrap>
     );
 }

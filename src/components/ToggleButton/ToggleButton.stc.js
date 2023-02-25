@@ -1,17 +1,8 @@
 import styled, {css} from "styled-components";
 
-const getStyle = ({type}) => {
-    if (type) {
-        return css`
-            left: auto;
-            right: 0;
-        `;
-    }
-};
-
 export const ToggleWrapper = styled.div`
     position: absolute;
-    left: -20px;
+    right: -20px;
     top: 50%;
     transform: translateY(-50%);
     .icon {
@@ -26,12 +17,11 @@ export const ToggleWrapper = styled.div`
         background: #f4f6f9;
         color: #000;
         border: 2px solid #dedede;
-        border-right: none;
+        border-left: none;
     }
     .icon:hover {
         color: #fff;
         background: #0062ff;
         border-color: #0062ff;
     }
-    ${getStyle}
 `;

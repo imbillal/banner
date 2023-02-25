@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const BuilderWrap = styled.div`
-    margin: 5px;
     margin: 10px;
     padding: 10px;
     background: #fff;

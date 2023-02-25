@@ -6,7 +6,8 @@ import Loading from "../../components/Loaing";
 import {EditorContext} from "../../context/elementContext";
 
 function KonvaEditor() {
-    const {state, canvasRef, handleUpdateState} = useContext(EditorContext);
+    const {state, canvasRef, updateCurrentBlock, handleUpdateState} =
+        useContext(EditorContext);
     const {elements, canvasStyle} = state;
     const checkDeselect = (e) => {
         const clickedOnEmpty = e.target === e.target.getStage();
@@ -36,9 +37,8 @@ function KonvaEditor() {
 }
 
 const RenderElements = ({elements = []}) => {
-    const {state, updateCurrentBlock, handleUpdateState} =
+    const {state, handleUpdateState, updateCurrentBlock} =
         useContext(EditorContext);
-    const {selectedIds = []} = state;
 
     const handleSetBlock = (element, idx) => {
         const selectedBlock = state.elements.find(({id}) => id === element.id);
@@ -63,7 +63,7 @@ const RenderElements = ({elements = []}) => {
             return (
                 <RenderComponent
                     key={idx}
-                    isSelected={selectedIds.includes(element.id)}
+                    isSelected={element.id === state.currentBlock?.data.id}
                     onSelect={() => {
                         handleSetBlock(element, idx);
                     }}
@@ -76,6 +76,7 @@ const RenderElements = ({elements = []}) => {
                                 data: newAttrs,
                             },
                         };
+
                         updateCurrentBlock(_block);
                     }}
                 />
