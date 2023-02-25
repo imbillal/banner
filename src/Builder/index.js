@@ -1,12 +1,12 @@
 import React from "react";
-import KonvaEditor from "../KonvaEditor";
+import KonvaEditor from "./KonvaEditor";
 import {BuilderWrap} from "./Builder.stc";
-import EditorSetting from "../EditorSidebar";
+import ElementSettingModal from "../ElementSettingModal";
 function Builder() {
     return (
         <BuilderWrap>
             <KonvaEditor />
-            <EditorSetting />
+            <ElementSettingModal />
         </BuilderWrap>
     );
 }

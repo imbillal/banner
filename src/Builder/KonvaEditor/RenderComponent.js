@@ -6,6 +6,7 @@ const components = {
     text: Text,
     star: Star,
 };
+
 const RenderComponent = ({element, isSelected, onSelect, onChange}) => {
     const shapeRef = React.useRef();
     const trRef = React.useRef();
@@ -25,7 +26,6 @@ const RenderComponent = ({element, isSelected, onSelect, onChange}) => {
         <React.Fragment>
             <Component
                 onClick={onSelect}
-                onTap={onSelect}
                 ref={shapeRef}
                 {...element.data}
                 draggable
@@ -37,8 +37,8 @@ const RenderComponent = ({element, isSelected, onSelect, onChange}) => {
                     });
                 }}
                 onDragMove={(e) => {
-                    e.target.x(Math.round(e.target.x() / 10) * 10);
-                    e.target.y(Math.round(e.target.y() / 10) * 10);
+                    e.target.x(Math.round(e.target.x() / 40) * 40);
+                    e.target.y(Math.round(e.target.y() / 40) * 40);
                 }}
                 onTransformEnd={(e) => {
                     const node = shapeRef.current;

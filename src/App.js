@@ -25,6 +25,7 @@ const AppComp = () => {
         loading: true,
         collapsed: true,
         currentBlock: null,
+        selectedIds: [],
         isSidebarActive: false,
         canvasStyle: {
             width: 800,
@@ -36,6 +37,39 @@ const AppComp = () => {
 
     const handleUpdateState = (value) => {
         setstate((prev) => ({...prev, ...value}));
+    };
+
+    const onSaveSettings = (value) => {
+        const payload = Array.isArray(value) ? value : [value];
+        payload.map((item) => {
+            saveOne(item);
+        });
+    };
+
+    const saveOne = (payload) => {
+        const data = state.currentBlock.data || {};
+        const {path, value} = payload;
+        let prevKey;
+        let updatedValue = path?.split("/").reduce((acc, key, index, arr) => {
+            if (arr.length === index + 1) {
+                return {...acc, [prevKey]: {...acc[prevKey], [key]: value}};
+            } else {
+                if (!acc[key]) {
+                    acc[key] = {};
+                }
+                prevKey = key;
+                return acc;
+            }
+        }, data);
+        handleUpdateState({
+            currentBlock: {...state.currentBlock, data: updatedValue},
+        });
+
+        if (updatedValue) {
+            let _elements = [...state.elements];
+            _elements[state.currentBlock.idx] = updatedValue;
+            updateElement(_elements);
+        }
     };
 
     const updateElement = (elements) => {
@@ -71,6 +105,7 @@ const AppComp = () => {
                 handleUpdateState,
                 updateCurrentBlock,
                 updateElement,
+                onSaveSettings,
                 setCurrentBlock,
                 state,
                 canvasRef,

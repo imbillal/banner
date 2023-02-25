@@ -111,13 +111,13 @@ function Layout() {
     };
     return (
         <div>
-            <AntdTree
+            {/* <AntdTree
                 className="antd-custom-tree"
                 onDrop={handleOnDrop}
                 draggable={true}
             >
                 {renderTreeNodes(state.elements)}
-            </AntdTree>
+            </AntdTree> */}
             <Button
                 onClick={() => handleModal(true)}
                 type="primary"

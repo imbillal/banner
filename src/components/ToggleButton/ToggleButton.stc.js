@@ -1,4 +1,13 @@
-import styled from "styled-components";
+import styled, {css} from "styled-components";
+
+const getStyle = ({type}) => {
+    if (type) {
+        return css`
+            left: auto;
+            right: 0;
+        `;
+    }
+};
 
 export const ToggleWrapper = styled.div`
     position: absolute;
@@ -24,4 +33,5 @@ export const ToggleWrapper = styled.div`
         background: #0062ff;
         border-color: #0062ff;
     }
+    ${getStyle}
 `;

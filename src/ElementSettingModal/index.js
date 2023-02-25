@@ -3,49 +3,37 @@ import ToggleButton from "../components/ToggleButton";
 import {EditorContext} from "../context/elementContext";
 import Header from "./components/Header";
 import {SidebarWrap, StyleWrapper} from "./components/SidebarWrap.stc";
-import settings from "./componentSettings/index";
+import settings from "../Elements/componentModules/index";
 import {Collapse} from "antd";
+import RenderTemplate from "../SettingComponents/core/RenderTemplate";
 
 const {Panel} = Collapse;
 function SidebarSetting() {
-    const {state} = useContext(EditorContext);
-    const isSidebarVisible = state.isSidebarActive && state.currentBlock;
-    console.log("billal", {settings: settings["text"]});
+    const {state, onSaveSettings} = useContext(EditorContext);
+    const {currentBlock, isSidebarActive} = state;
+    const isSidebarVisible = isSidebarActive && currentBlock;
 
-    const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
     return (
         <SidebarWrap isSidebarVisible={isSidebarVisible}>
             <Header />
             <StyleWrapper>
                 <Collapse defaultActiveKey={0} ghost>
-                    {settings["text"]
+                    {settings[currentBlock?.data?.type]
                         ?.filter((v) => v)
                         .map((group, idx) => (
                             <Panel header={group.label} key={idx}>
-                                <RenderModules modules={group.modules} />
+                                <RenderTemplate
+                                    module={group}
+                                    data={state.currentBlock?.data || {}}
+                                    handleChange={onSaveSettings}
+                                />
                             </Panel>
                         ))}
                 </Collapse>
             </StyleWrapper>
-            <ToggleButton />
+            <ToggleButton type="setting" />
         </SidebarWrap>
     );
 }
-
-const RenderModules = ({modules}) => {
-    return modules.map((module) => {
-        if (typeof module === "string") {
-            return "string" + " " + module;
-        }
-        if (typeof module === "object") {
-            return "hello";
-        }
-        return "fasdfa";
-    });
-};
 
 export default SidebarSetting;
