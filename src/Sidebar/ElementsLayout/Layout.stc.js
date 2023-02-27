@@ -1,14 +1,11 @@
 import styled from "styled-components";
 
 export const LayoutWrapper = styled.div`
-    position: absolute;
-    top: 0;
-    right: 0;
     background: #fff;
     transition: all 0.3s;
     border-left: 2px solid #dedede;
-    width: 100%;
-    max-width: 280px;
+    min-width: 280px;
+    width: 280px;
     padding: 10px;
     height: calc(100vh - 46px);
     overflow: hidden;

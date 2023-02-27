@@ -1,9 +1,9 @@
 import React from "react";
 import {Slider, InputNumber} from "antd";
 import styled from "styled-components";
-import {WrapperWithLabel} from "./sharedStyledComponent";
+import {WrapperWithLabel} from "../sharedStyledComponent";
 
-function Range({path, value: inputValue, onChange, step = 1, ...rest}) {
+function Size({path, value, onChange, step = 1, ...rest}) {
     const handleChange = (value) => {
         onChange({path, value: parseFloat(value)});
     };
@@ -14,13 +14,13 @@ function Range({path, value: inputValue, onChange, step = 1, ...rest}) {
                 {...rest}
                 step={step}
                 onChange={handleChange}
-                value={typeof inputValue === "number" ? inputValue : 0}
+                value={typeof value === "number" ? value : 0}
             />
             <InputNumber
                 {...rest}
                 step={step}
                 style={{width: "100%", maxWidth: "80px"}}
-                value={inputValue}
+                value={value}
                 onChange={handleChange}
                 onBlur={({target}) => handleChange(target.value)}
             />
@@ -32,4 +32,4 @@ const CustomSlider = styled(Slider)`
     width: 100%;
 `;
 
-export default Range;
+export default Size;

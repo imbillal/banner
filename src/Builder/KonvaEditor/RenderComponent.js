@@ -1,10 +1,19 @@
 import React from "react";
-import {Rect, Star, Circle, Text, Transformer} from "react-konva";
+import {Rect, Star, Image, Circle, Text, Transformer} from "react-konva";
 const components = {
     rectangle: Rect,
     circle: Circle,
     text: Text,
     star: Star,
+    image: Image,
+};
+
+const generateStyle = (style = {}) => {
+    if (style._size !== undefined) {
+        style.width = style._size;
+        style.height = style._size;
+    }
+    return {...style};
 };
 
 const RenderComponent = ({element, isSelected, onSelect, onChange}) => {
@@ -12,7 +21,7 @@ const RenderComponent = ({element, isSelected, onSelect, onChange}) => {
     const trRef = React.useRef();
 
     React.useEffect(() => {
-        if (isSelected) {
+        if (isSelected && trRef.current) {
             // we need to attach transformer manually
             trRef.current.nodes([shapeRef.current]);
             trRef.current.getLayer().batchDraw();
@@ -27,18 +36,18 @@ const RenderComponent = ({element, isSelected, onSelect, onChange}) => {
             <Component
                 onClick={onSelect}
                 ref={shapeRef}
-                {...element.data}
+                {...generateStyle(element.data)}
                 draggable
                 onDragEnd={(e) => {
                     onChange({
-                        ...element.data,
+                        ...generateStyle(element.data),
                         x: e.target.x(),
                         y: e.target.y(),
                     });
                 }}
                 onDragMove={(e) => {
-                    e.target.x(Math.round(e.target.x() / 40) * 40);
-                    e.target.y(Math.round(e.target.y() / 40) * 40);
+                    e.target.x(Math.round(e.target.x() / 5) * 5);
+                    e.target.y(Math.round(e.target.y() / 5) * 5);
                 }}
                 onTransformEnd={(e) => {
                     const node = shapeRef.current;
@@ -49,7 +58,7 @@ const RenderComponent = ({element, isSelected, onSelect, onChange}) => {
                     node.scaleX(1);
                     node.scaleY(1);
                     onChange({
-                        ...element.data,
+                        ...generateStyle(element.data),
                         x: node.x(),
                         y: node.y(),
                         // set minimal value

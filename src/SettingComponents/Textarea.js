@@ -11,7 +11,7 @@ function Textarea({path, onChange, ...rest}) {
     return (
         <WrapperWithLabel>
             <TextArea
-                rows={2}
+                rows={3}
                 {...rest}
                 onChange={({target}) => handleChange(target.value)}
             />

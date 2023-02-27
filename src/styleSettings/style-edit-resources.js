@@ -35,7 +35,7 @@ const components = {
         defaultValue: "left",
         options: [
             {value: "top", icon: "VerticalAlignTopOutlined"},
-            {value: "center", icon: "VerticalAlignMiddleOutlined"},
+            {value: "middle", icon: "VerticalAlignMiddleOutlined"},
             {value: "bottom", icon: "VerticalAlignBottomOutlined"},
         ],
     },
@@ -92,8 +92,23 @@ const components = {
             {value: "line-through", icon: "StrikethroughOutlined"},
         ],
     },
-    strok: {
+    fill: {
+        template: "ColorPicker",
+        label: "Color",
+        labelPosition: "inline",
+    },
+    stroke: {
+        template: "ColorPicker",
+        label: "Stroke Color",
+        labelPosition: "inline",
+    },
+    strokeWidth: {
         label: "Stroke Width",
+        labelPosition: "block",
+        template: "Range",
+    },
+    hitStrokeWidth: {
+        label: "Hit Stroke Width",
         labelPosition: "block",
         template: "Range",
     },
@@ -125,8 +140,8 @@ const components = {
     text: {
         label: "Text",
         template: "Textarea",
-        defaultUnit: "px",
-        defaultValue: "16px",
+        placeholder: "Type Text",
+        row: 5,
         labelPosition: "block",
     },
 
@@ -176,7 +191,8 @@ const components = {
 
     opacity: {
         min: 0,
-        max: 100,
+        max: 1,
+        step: 0.1,
         hoverable: true,
         label: "Opacity",
         template: "Range",
@@ -184,23 +200,18 @@ const components = {
     },
     rotate: {
         min: 0,
-        max: 100,
-        hoverable: true,
+        max: 360,
         label: "Rotate",
-        defaultUnit: "deg",
         template: "Range",
         labelPosition: "block",
     },
 
     width: {
-        max: 100,
-        info: "Width of the content",
+        max: 300,
         label: "Width",
-        defaultUnit: "%",
+        labelPosition: "block",
         template: "Range",
-        path: "style/width",
-        placeholder: "auto",
-        isResponsible: true,
+        placeholder: "Width",
     },
     backgroundColor: {
         hoverable: true,
@@ -328,6 +339,47 @@ const components = {
             labelPosition: "block",
             defaultValue: "0px",
         },
+    },
+    shadowOffsetX: {
+        template: "Range",
+        label: "Horizontal Offset",
+        labelPosition: "block",
+    },
+    shadowOffsetY: {
+        template: "Range",
+        label: "Vertical Offset",
+        labelPosition: "block",
+    },
+    shadowColor: {
+        label: "color",
+        template: "ColorPicker",
+        labelPosition: "inline",
+    },
+    shadowEnabled: {
+        template: "Switch",
+        label: "Enabled",
+        labelPosition: "inline",
+    },
+    _size: {
+        min: 0,
+        max: 300,
+        template: "Size",
+        label: "Size",
+        labelPosition: "block",
+    },
+    cornerRadius: {
+        max: 100,
+        min: 0,
+        template: "Range",
+        label: "Border Radius",
+        labelPosition: "block",
+    },
+    shadowBlur: {
+        max: 100,
+        min: 0,
+        template: "Range",
+        label: "Blur",
+        labelPosition: "block",
     },
     textShadow: {
         x: {

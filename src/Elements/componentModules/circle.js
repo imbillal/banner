@@ -4,8 +4,7 @@ const text = [
         modules: [
             "data/fontStyle",
             "data/textDecoration",
-            "data/align",
-            "data/verticalAlign",
+            "data/_size",
             "data/lineHeight",
             "data/letterSpacing",
             "data/opacity",

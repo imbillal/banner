@@ -8,17 +8,23 @@ import StyleAndDecuration from "./StyleAndDecuration";
 import Select from "./Select";
 import FontFamily from "./FontFamily";
 import ColorPicker from "./ColorPicker";
+import ComponentPosition from "./ComponentPosition";
+import Switch from "./Switch";
+import Size from "./Size";
 
 const components = {
     Input,
+    Size,
     Textarea,
     Range,
     Select,
     Tab,
+    Switch,
     Radio,
     ColorPicker,
     FontFamily,
     InputNumber,
+    ComponentPosition,
     StyleAndDecuration,
 };
 

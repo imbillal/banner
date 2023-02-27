@@ -22,7 +22,6 @@ import RenderTemplate from "./RenderTemplate";
 const Info = styled.p``;
 const GroupContent = styled.div`
     margin-top: 8px;
-    margin-bottom: 16px;
     &:last-child {
         margin-bottom: 0;
     }

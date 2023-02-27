@@ -7,6 +7,8 @@ import {EditorContextProvider} from "./context/elementContext";
 import {defaultElements} from "./Elements/elementResorce";
 import {Route, Switch, BrowserRouter as Router} from "react-router-dom";
 import Preview from "./Preview";
+import ElementsLayout from "./Sidebar/ElementsLayout";
+import merge from "lodash/merge";
 
 const App = () => {
     return (
@@ -15,6 +17,7 @@ const App = () => {
             <Layout style={{flexDirection: "row"}}>
                 <Sidebar />
                 <MainContainer />
+                <ElementsLayout />
             </Layout>
         </>
     );
@@ -31,24 +34,43 @@ const AppComp = () => {
             width: 800,
             height: 400,
         },
-        elements: [defaultElements.circle],
+        elements: [],
     });
     const canvasRef = useRef();
 
     const handleUpdateState = (value) => {
         setstate((prev) => ({...prev, ...value}));
+        updateInlocalStorage();
     };
 
     const onSaveSettings = (value) => {
         const payload = Array.isArray(value) ? value : [value];
-        payload.map((item) => {
-            saveOne(item);
+
+        let updatedValue = payload.map((item) => {
+            return saveOne(state.currentBlock.data || {}, item);
         });
+
+        const _currentBlock = {
+            ...state.currentBlock,
+            data: merge(...updatedValue),
+        };
+
+        let _elements = [...state.elements];
+        _elements[state.currentBlock.idx] = merge(...updatedValue);
+
+        handleUpdateState({elements: _elements, currentBlock: _currentBlock});
+        updateInlocalStorage();
+    };
+    const updateCanvasStyle = (value) => {
+        setstate((prev) => ({
+            ...prev,
+            canvasStyle: {...prev.canvasStyle, ...value},
+        }));
     };
 
-    const saveOne = (payload) => {
-        const data = state.currentBlock.data || {};
+    const saveOne = (data, payload) => {
         const {path, value} = payload;
+
         let prevKey;
         let updatedValue = path?.split("/").reduce((acc, key, index, arr) => {
             if (arr.length === index + 1) {
@@ -61,28 +83,32 @@ const AppComp = () => {
                 return acc;
             }
         }, data);
-        handleUpdateState({
-            currentBlock: {...state.currentBlock, data: updatedValue},
-        });
 
-        if (updatedValue) {
-            let _elements = [...state.elements];
-            _elements[state.currentBlock.idx] = updatedValue;
-            updateElement(_elements);
-        }
+        return updatedValue;
     };
 
     const updateElement = (elements) => {
         setstate((prev) => ({...prev, elements}));
+        updateInlocalStorage();
+    };
+
+    const updateInlocalStorage = () => {
+        const {elements, addedBlockLength} = state;
+        localStorage.setItem(
+            "_elements",
+            JSON.stringify({elements, addedBlockLength})
+        );
     };
     const updateCurrentBlock = (currentBlock) => {
         let elements = [...state.elements];
         elements[currentBlock.idx] = currentBlock.data;
 
         setstate((prev) => ({...prev, currentBlock, elements}));
+        updateInlocalStorage();
     };
     const setCurrentBlock = (value) => {
         setstate((prev) => ({...prev, currentBlock: value}));
+        updateInlocalStorage();
     };
 
     useEffect(() => {
@@ -108,15 +134,6 @@ const AppComp = () => {
             );
     }, [state.previewUrl]);
 
-    useEffect(() => {
-        const {elements, addedBlockLength} = state;
-        localStorage.setItem(
-            "_elements",
-            JSON.stringify({elements, addedBlockLength})
-        );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state.elements, state.addedBlockLength]);
-
     return (
         <EditorContextProvider
             value={{
@@ -125,6 +142,7 @@ const AppComp = () => {
                 updateElement,
                 onSaveSettings,
                 setCurrentBlock,
+                updateCanvasStyle,
                 state,
                 canvasRef,
             }}

@@ -9,9 +9,26 @@ body {
 
 .custom-konva-stage .konvajs-content {
     margin: 0 auto;
-    border: 2px solid red;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
         monospace;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

@@ -40,7 +40,7 @@ const ColorPickerModal = ({open, color, children, close, onChange}) => {
             onCancel={close}
         >
             <CustomColorPicker
-                color={converColor(color) || "transparent"}
+                color={converColor(color || "#fff") || "transparent"}
                 onChange={handleColor}
                 className="custom-color-picker"
                 styles={{width: "100%"}}
@@ -64,9 +64,6 @@ const CustomColorPicker = styled(SketchPicker)`
         box-shadow: none !important;
         left: 0;
         top: 0;
-    }
-    .flexbox-fix {
-        /* display: none !important; */
     }
 `;
 

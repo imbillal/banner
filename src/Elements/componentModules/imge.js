@@ -1,4 +1,4 @@
-const text = [
+const image = [
     {
         label: "General Styles",
         modules: ["data/width", "data/height", "data/opacity"],
@@ -46,4 +46,4 @@ const text = [
         ],
     },
 ];
-export default text;
+export default image;

@@ -2,15 +2,15 @@ import React from "react";
 import KonvaEditor from "./KonvaEditor";
 import {BuilderWrap} from "./Builder.stc";
 import ElementSettingModal from "../ElementSettingModal";
-import ElementsLayout from "../Sidebar/ElementsLayout";
+import EditorHeader from "./EditorHeader";
 function Builder() {
     return (
         <>
-            <BuilderWrap>
+            <EditorHeader />
+            <BuilderWrap className="fasf">
                 <KonvaEditor />
                 <ElementSettingModal />
             </BuilderWrap>
-            <ElementsLayout />
         </>
     );
 }

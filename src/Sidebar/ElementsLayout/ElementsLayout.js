@@ -1,10 +1,12 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect, useRef} from "react";
 import {Tree, Button, Modal, Dropdown, Input, message} from "antd";
 import styled from "styled-components";
 import {nanoid} from "nanoid";
 import {EditorContext} from "../../context/elementContext";
 import {defaultElements} from "../../Elements/elementResorce";
 import {LayoutWrapper, Header} from "./Layout.stc";
+import useOuterClick from "../../hooks/useOuterClick";
+import slugify from "slugify";
 const modalData = {
     title: "Add New Element",
     okText: "Add Element",
@@ -14,6 +16,7 @@ const {TreeNode} = Tree;
 function Layout() {
     const {state, handleUpdateState, updateElement} = useContext(EditorContext);
     const [modal, setModal] = useState(modalData);
+
     const getPosition = (path = "") => {
         return Number(path.split("-")[1]);
     };
@@ -42,64 +45,6 @@ function Layout() {
         updateElement(state.elements.filter((el) => el.id !== id));
     };
 
-    const RenderTitle = ({item}) => {
-        const [slug, setSlug] = useState(item.slug || "");
-        const [isEditing, setIsEditing] = useState(false);
-        const items = [
-            {
-                key: "delete",
-                label: (
-                    <span onClick={() => handleDelete(item.id)}>Delete</span>
-                ),
-            },
-        ];
-
-        const handleBlur = (value) => {
-            const isSlugMatched = state.elements.find(
-                (item) => item.slug === value
-            );
-
-            if (!isSlugMatched) {
-                setSlug(value);
-                let index = state.elements.findIndex((el) => el.id === item.id);
-                const elements = [...state.elements];
-                elements[index] = {...item, slug: value};
-                updateElement(elements);
-                setIsEditing(false);
-            } else {
-                setIsEditing(false);
-                message.error("Slug is not unique");
-            }
-        };
-        return (
-            <div
-                className="title-wrapper"
-                onDoubleClick={() => setIsEditing(true)}
-            >
-                {!isEditing ? (
-                    <span className="title" title={item.slug}>
-                        {item.slug}
-                    </span>
-                ) : (
-                    <Input
-                        value={slug}
-                        onChange={({target}) => setSlug(target.value)}
-                        onBlur={({target}) => handleBlur(target.value)}
-                        placeholder="Type Unique id"
-                    />
-                )}
-
-                {/* <Dropdown
-                    menu={{items}}
-                    trigger="click"
-                    className="action-btn"
-                    placement="bottomLeft"
-                >
-                    <EllipsisOutlined />
-                </Dropdown> */}
-            </div>
-        );
-    };
     const renderTreeNodes = (data) =>
         data.map((item, idx) => {
             if (Array.isArray(item.content)) {
@@ -162,7 +107,7 @@ function Layout() {
                 onDrop={handleOnDrop}
                 draggable={true}
             >
-                {renderTreeNodes(state.elements)}
+                {renderTreeNodes(state.elements || [])}
             </AntdTree>
             <Button onClick={() => handleModal(true)} type="dashed" block>
                 + Add New Block
@@ -246,3 +191,87 @@ const AntdTree = styled(Tree)`
     } */
 `;
 export default Layout;
+
+const RenderTitle = ({item}) => {
+    const {state, handleUpdateState, updateElement} = useContext(EditorContext);
+    const [slug, setSlug] = useState(item.slug || "");
+    const [isEditing, setIsEditing] = useState(false);
+    const inputRef = useRef();
+    const refe = useOuterClick(() => {
+        setIsEditing(false);
+    });
+
+    const handleBlur = (value) => {
+        value = slugify(value.trim());
+        if (value === item.slug) return;
+        const isSlugMatched = state.elements.find(
+            (item) => item.slug === value
+        );
+
+        if (!isSlugMatched) {
+            setSlug(value);
+            let index = state.elements.findIndex((el) => el.id === item.id);
+            const elements = [...state.elements];
+            elements[index] = {...item, slug: value};
+            updateElement(elements);
+            setIsEditing(false);
+            message.success("Slug is updated");
+        } else {
+            setIsEditing(false);
+            message.error("Slug is not unique");
+        }
+    };
+
+    const handleSetBlock = (element) => {
+        let idx = state.elements.findIndex((el) => el.id === element.id);
+        if (idx >= 0) {
+            const currentBlock = {
+                idx,
+                data: element,
+            };
+            handleUpdateState({
+                currentBlock: currentBlock,
+                isSidebarActive: true,
+            });
+        }
+    };
+    // useEffect(() => {
+    //     inputRef.current?.focus();
+    // }, [inputRef, isEditing]);
+
+    return (
+        <div
+            ref={refe}
+            className="title-wrapper"
+            onDoubleClick={() => {
+                setIsEditing(true);
+            }}
+        >
+            {!isEditing ? (
+                <span
+                    // onClick={() => handleSetBlock(item)}
+                    className="title"
+                    title={item.slug}
+                >
+                    {item.slug}
+                </span>
+            ) : (
+                <Input
+                    value={slug}
+                    onChange={({target}) => setSlug(target.value)}
+                    onBlur={({target}) => handleBlur(target.value)}
+                    placeholder="Type Unique id"
+                />
+            )}
+
+            {/* <Dropdown
+                menu={{items}}
+                trigger="click"
+                className="action-btn"
+                placement="bottomLeft"
+            >
+                <EllipsisOutlined />
+            </Dropdown> */}
+        </div>
+    );
+};

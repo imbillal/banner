@@ -22,7 +22,6 @@ import getModContent from "../../utils/getModContent";
 // import RenderHelpText from "./RenderHelpText";
 
 const StyledInput = styled.div`
-    margin-bottom: 16px;
     margin-top: 8px;
     position: relative;
 
@@ -33,7 +32,7 @@ const StyledInput = styled.div`
 
 const LabelWrap = styled.div`
     display: flex;
-    margin-top: ${(props) => (props.mt ? 0 : "20px")};
+    margin-bottom: 10px;
     justify-content: space-between;
 `;
 

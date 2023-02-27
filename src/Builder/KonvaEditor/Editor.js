@@ -1,13 +1,13 @@
 import {Line} from "react-konva";
 import React, {useContext} from "react";
-import {Stage, Layer} from "react-konva";
+import {Stage, Layer, Group} from "react-konva";
 import RenderComponent from "./RenderComponent";
 import Loading from "../../components/Loaing";
 import {EditorContext} from "../../context/elementContext";
+import RenderImage from "./RenderImage";
 
 function KonvaEditor() {
-    const {state, canvasRef, updateCurrentBlock, handleUpdateState} =
-        useContext(EditorContext);
+    const {state, canvasRef, handleUpdateState} = useContext(EditorContext);
     const {elements, canvasStyle} = state;
     const checkDeselect = (e) => {
         const clickedOnEmpty = e.target === e.target.getStage();
@@ -28,7 +28,7 @@ function KonvaEditor() {
             onMouseDown={checkDeselect}
             onTouchStart={checkDeselect}
         >
-            <RenderGrid />
+            {state.isGridLayoutActive && <RenderGrid />}
             <Layer>
                 <RenderElements elements={elements} />
             </Layer>
@@ -60,6 +60,32 @@ const RenderElements = ({elements = []}) => {
             const {elements} = element.group;
             return <RenderElements elements={elements} />;
         } else {
+            if (element.type === "image") {
+                return (
+                    <RenderImage
+                        key={idx}
+                        isSelected={element.id === state.currentBlock?.data.id}
+                        onSelect={() => {
+                            handleSetBlock(element, idx);
+                        }}
+                        element={element}
+                        onChange={(newAttrs) => {
+                            console.log("billal", {newAttrs});
+
+                            let _block = {
+                                idx,
+                                data: {
+                                    ...state.elements[idx],
+                                    data: newAttrs,
+                                },
+                            };
+
+                            updateCurrentBlock(_block);
+                        }}
+                    />
+                );
+            }
+
             return (
                 <RenderComponent
                     key={idx}
@@ -69,6 +95,8 @@ const RenderElements = ({elements = []}) => {
                     }}
                     element={element}
                     onChange={(newAttrs) => {
+                        console.log("billal", {newAttrs});
+
                         let _block = {
                             idx,
                             data: {

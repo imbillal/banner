@@ -34,6 +34,15 @@ const IG = styled.div`
     > .input-wrap {
         flex-grow: 1;
     }
+    .color-dropper {
+        svg {
+            color: #fff;
+            mix-blend-mode: difference;
+        }
+    }
+    .transparent-bg-placeholder {
+        color: #000;
+    }
 `;
 const Label = styled.label`
     margin: 0;

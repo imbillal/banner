@@ -14,7 +14,7 @@ function Header() {
     if (!currentBlock) return null;
     return (
         <HeaderWrap>
-            <span className="title">{currentBlock.data.label}</span>
+            <span className="title">{currentBlock.data.slug}</span>
             <span className="close-btn" onClick={handleClose}>
                 <CloseOutlined />
             </span>

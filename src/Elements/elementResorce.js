@@ -30,6 +30,19 @@ export const defaultElements = {
             color: "yellow",
         },
     },
+    image: {
+        label: "Image",
+        component: "image",
+        value: "image",
+        type: "image",
+        data: {
+            width: 100,
+            height: 100,
+            x: 100,
+            y: 100,
+            _src: "https://cdn.pixabay.com/photo/2015/06/19/21/24/avenue-815297_1280.jpg",
+        },
+    },
     circle: {
         label: "Circle",
         component: "circle",

@@ -3,7 +3,8 @@ import {Menu} from "antd";
 import {
     UploadOutlined,
     UnorderedListOutlined,
-    VideoCameraOutlined,
+    FileImageOutlined,
+    FontSizeOutlined,
 } from "@ant-design/icons";
 import {
     SidebarWrap,
@@ -14,7 +15,6 @@ import {
 import components from "./components";
 import ToggleButton from "../components/ToggleButton";
 import {EditorContext} from "../context/elementContext";
-import ElementsLayout from "./ElementsLayout/ElementsLayout";
 
 function Sidebar() {
     const {state, handleUpdateState} = useContext(EditorContext);
@@ -36,14 +36,14 @@ function Sidebar() {
                         title="Text"
                         onClick={() => handleComponentType("text")}
                     >
-                        <VideoCameraOutlined className="icon" />
+                        <FontSizeOutlined className="icon" />
                         <span> Text</span>
                     </Menu.Item>
                     <Menu.Item
                         title="Image"
                         onClick={() => handleComponentType("image")}
                     >
-                        <VideoCameraOutlined className="icon" />
+                        <FileImageOutlined className="icon" />
                         <span> Image</span>
                     </Menu.Item>
                     <Menu.Item
@@ -68,7 +68,6 @@ function Sidebar() {
             >
                 <ToggleButton />
             </RenderSidebarComponent> */}
-            <ElementsLayout />
         </SidebarWrap>
     );
 }
