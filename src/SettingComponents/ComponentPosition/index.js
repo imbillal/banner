@@ -7,18 +7,18 @@ function ComponentPosition() {
     const {state, onSaveSettings, updateCanvasStyle} =
         useContext(EditorContext);
     const {currentBlock, canvasStyle} = state;
-    const {data: style = {}} = currentBlock?.data || {};
+    const {attrs: style = {}} = currentBlock?.data || {};
 
     const handleXChange = (value) => {
         if (currentBlock) {
-            onSaveSettings({path: "data/x", value: parseFloat(value || 0)});
+            onSaveSettings({path: "attrs/x", value: parseFloat(value || 0)});
         } else {
             updateCanvasStyle({width: parseFloat(value || 0)});
         }
     };
     const handleYChange = (value) => {
         if (currentBlock) {
-            onSaveSettings({path: "data/y", value: parseFloat(value || 0)});
+            onSaveSettings({path: "attrs/y", value: parseFloat(value || 0)});
         } else {
             updateCanvasStyle({height: parseFloat(value || 0)});
         }

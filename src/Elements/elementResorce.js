@@ -1,13 +1,9 @@
 export const defaultElements = {
-    text: {
-        label: "Text",
-        value: "text",
-        component: "text",
-        type: "text",
-        data: {
+    Text: {
+        attrs: {
             text: "Simple Text",
-            x: 80,
-            y: 80,
+            x: 300,
+            y: 100,
             strokeDasharray: 0,
             fontSize: 30,
             fontFamily: "Calibri",
@@ -15,56 +11,50 @@ export const defaultElements = {
             stroke: "red",
             strokeWidth: 1,
         },
+        type: "text",
+        className: "Text",
     },
-    rectangle: {
-        label: "Rectangle",
-        component: "rectangle",
-        value: "rectangle",
-        type: "rectangle",
-        data: {
-            x: 80,
-            y: 80,
+    Rectangle: {
+        attrs: {
+            x: 300,
+            y: 100,
             width: 100,
             height: 100,
             fill: "green",
             color: "yellow",
         },
+        type: "rect",
+        className: "Rect",
     },
-    image: {
-        label: "Image",
-        component: "image",
-        value: "image",
+    Image: {
+        className: "Image",
         type: "image",
-        data: {
+        attrs: {
             width: 100,
             height: 100,
-            x: 100,
+            x: 300,
             y: 100,
-            _src: "https://cdn.pixabay.com/photo/2015/06/19/21/24/avenue-815297_1280.jpg",
+            src: "https://cdn.pixabay.com/photo/2015/06/19/21/24/avenue-815297_1280.jpg",
         },
     },
-    circle: {
-        label: "Circle",
-        component: "circle",
-        value: "circle",
+    Circle: {
+        className: "Circle",
         type: "circle",
-        data: {
-            x: 80,
-            y: 80,
+        attrs: {
+            x: 300,
+            y: 100,
             radius: 70,
             fill: "red",
             stroke: "black",
             strokeWidth: 4,
         },
     },
-    star: {
-        label: "Star",
-        value: "Star",
-        component: "star",
+    Star: {
+        className: "Star",
         type: "star",
-        data: {
-            x: 110,
-            y: 110,
+        attrs: {
+            x: 300,
+            y: 100,
             numPoints: 5,
             innerRadius: 40,
             outerRadius: 70,
@@ -74,3 +64,10 @@ export const defaultElements = {
         },
     },
 };
+
+export const defaultElementsOpts = Object.keys(defaultElements).map(
+    (element) => ({
+        label: element,
+        value: element,
+    })
+);

@@ -41,11 +41,14 @@ const RenderElements = ({elements = []}) => {
         useContext(EditorContext);
 
     const handleSetBlock = (element, idx) => {
-        const selectedBlock = state.elements.find(({id}) => id === element.id);
+        const selectedBlock = state.elements.find(
+            ({attrs}) => attrs.id === element.attrs.id
+        );
+
         if (selectedBlock) {
             const currentBlock = {
                 idx,
-                data: state.elements.find(({id}) => id === element.id),
+                data: selectedBlock,
             };
 
             handleUpdateState({
@@ -55,36 +58,39 @@ const RenderElements = ({elements = []}) => {
         }
     };
 
-    return elements.map((element, idx) => {
-        if (element.group) {
-            const {elements} = element.group;
-            return <RenderElements elements={elements} />;
-        } else {
-            return (
-                <RenderComponent
-                    key={idx}
-                    isSelected={element.id === state.currentBlock?.data.id}
-                    onSelect={() => {
-                        handleSetBlock(element, idx);
-                    }}
-                    element={element}
-                    onChange={(newAttrs) => {
-                        console.log("billal", {newAttrs});
+    return elements
+        .filter((v) => v)
+        .map((element, idx) => {
+            if (element.group) {
+                const {elements} = element.group;
+                return <RenderElements elements={elements} />;
+            } else {
+                return (
+                    <RenderComponent
+                        key={idx}
+                        isSelected={
+                            element.attrs.id ===
+                            state.currentBlock?.data.attrs.id
+                        }
+                        onSelect={() => {
+                            handleSetBlock(element, idx);
+                        }}
+                        element={element}
+                        onChange={(newAttrs) => {
+                            let _block = {
+                                idx,
+                                data: {
+                                    ...state.elements[idx],
+                                    attrs: newAttrs,
+                                },
+                            };
 
-                        let _block = {
-                            idx,
-                            data: {
-                                ...state.elements[idx],
-                                data: newAttrs,
-                            },
-                        };
-
-                        updateCurrentBlock(_block);
-                    }}
-                />
-            );
-        }
-    });
+                            updateCurrentBlock(_block);
+                        }}
+                    />
+                );
+            }
+        });
 };
 
 const RenderGrid = () => {

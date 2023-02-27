@@ -1,21 +1,21 @@
-const text = [
+const star = [
     {
         label: "label 1",
         modules: [
-            "data/fontStyle",
-            "data/textDecoration",
-            "data/align",
-            "data/verticalAlign",
-            "data/lineHeight",
-            "data/letterSpacing",
-            "data/opacity",
-            "data/fontVariant",
+            "attrs/fontStyle",
+            "attrs/textDecoration",
+            "attrs/align",
+            "attrs/verticalAlign",
+            "attrs/lineHeight",
+            "attrs/letterSpacing",
+            "attrs/opacity",
+            "attrs/fontVariant",
             {
-                path: "data/text",
+                path: "attrs/text",
                 content: {placeholder: "hello", template: "Textarea"},
             },
         ],
     },
-    {label: "label 2", modules: ["data/fontSize"]},
+    {label: "label 2", modules: ["attrs/fontSize"]},
 ];
-export default text;
+export default star;

@@ -4,30 +4,30 @@ const image = [
         label: "General Styles",
         modules: [
             {
-                path: "data/_src",
+                path: "attrs/src",
                 content: {
                     template: "InputURL",
                     placeholder: "Type Image URl",
                     label: "URL",
                 },
             },
-            "data/width",
-            "data/height",
+            "attrs/width",
+            "attrs/height",
         ],
     },
     {
         label: "Background",
-        modules: ["data/fill"],
+        modules: ["attrs/fill"],
     },
     {
         label: "Shadow",
         modules: [
-            {
-                path: "data/shadowEnabled",
-                content: {
-                    label: "Shadow Enabled",
-                },
-            },
+            // {
+            //     path: "attrs/shadowEnabled",
+            //     content: {
+            //         label: "Shadow Enabled",
+            //     },
+            // },
             ...makeBoxShadowSetting(),
         ],
     },
@@ -35,23 +35,23 @@ const image = [
         label: "Border",
         modules: [
             {
-                path: "data/strokeWidth",
+                path: "attrs/strokeWidth",
                 content: {
                     component: "Range",
                     label: "Border Width",
                 },
             },
             {
-                path: "data/stroke",
+                path: "attrs/stroke",
                 content: {
                     component: "ColorPicker",
                     label: "Border Color",
                 },
             },
-            "data/cornerRadius",
-            // "data/shadowOffsetY",
-            // "data/shadowBlur",
-            // "data/shadowColor",
+            "attrs/cornerRadius",
+            // "attrs/shadowOffsetY",
+            // "attrs/shadowBlur",
+            // "attrs/shadowColor",
         ],
     },
 ];

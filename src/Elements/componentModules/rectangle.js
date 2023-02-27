@@ -1,48 +1,48 @@
 const text = [
     {
         label: "General Styles",
-        modules: ["data/width", "data/height", "data/opacity"],
+        modules: ["attrs/width", "attrs/height", "attrs/opacity"],
     },
     {
         label: "Background",
-        modules: ["data/fill"],
+        modules: ["attrs/fill"],
     },
     {
         label: "Shadow",
         modules: [
             {
-                path: "data/shadowEnabled",
+                path: "attrs/shadowEnabled",
                 content: {
                     label: "Shadow Enabled",
                 },
             },
-            "data/shadowOffsetX",
-            "data/shadowOffsetY",
-            "data/shadowBlur",
-            "data/shadowColor",
+            "attrs/shadowOffsetX",
+            "attrs/shadowOffsetY",
+            "attrs/shadowBlur",
+            "attrs/shadowColor",
         ],
     },
     {
         label: "Border",
         modules: [
             {
-                path: "data/strokeWidth",
+                path: "attrs/strokeWidth",
                 content: {
                     component: "Range",
                     label: "Border Width",
                 },
             },
             {
-                path: "data/stroke",
+                path: "attrs/stroke",
                 content: {
                     component: "ColorPicker",
                     label: "Border Color",
                 },
             },
-            "data/cornerRadius",
-            // "data/shadowOffsetY",
-            // "data/shadowBlur",
-            // "data/shadowColor",
+            "attrs/cornerRadius",
+            // "attrs/shadowOffsetY",
+            // "attrs/shadowBlur",
+            // "attrs/shadowColor",
         ],
     },
 ];

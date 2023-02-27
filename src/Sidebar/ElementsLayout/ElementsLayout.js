@@ -41,45 +41,29 @@ function Layout() {
         updateElement(elements);
     };
 
-    const handleDelete = (id) => {
-        updateElement(state.elements.filter((el) => el.id !== id));
-    };
-
     const renderTreeNodes = (data) =>
-        data.map((item, idx) => {
-            if (Array.isArray(item.content)) {
+        data
+            .filter((v) => v)
+            .map((item, idx) => {
                 return (
                     <TreeNode
                         title={<RenderTitle item={item} />}
-                        key={idx}
                         dataRef={item}
+                        key={idx}
                         parent={data}
                     >
-                        {renderTreeNodes(item)}
+                        hello
                     </TreeNode>
                 );
-            }
-
-            return (
-                <TreeNode
-                    title={<RenderTitle item={item} />}
-                    dataRef={item}
-                    key={idx}
-                    parent={data}
-                >
-                    {item.name}
-                </TreeNode>
-            );
-        });
+            });
 
     const handleAddBlock = (key) => {
         const {addedBlockLength} = state;
         const currentLength = addedBlockLength + 1;
         let _element = defaultElements[key];
-        _element.slug = `${_element.type}_${currentLength}`;
-        _element.id = nanoid(12).toString();
-        const elements = [...state.elements];
-        elements[addedBlockLength] = {..._element};
+        _element.attrs.id = `${_element.className}_${currentLength}`;
+
+        const elements = [...state.elements, _element];
 
         const currentBlock = {
             idx: addedBlockLength,
@@ -118,14 +102,14 @@ function Layout() {
                 {...modal}
                 onCancel={() => handleModal()}
             >
-                {Object.entries(defaultElements).map(([key, value]) => {
+                {Object.keys(defaultElements).map((value, idx) => {
                     return (
                         <p
-                            key={key}
+                            key={idx}
                             className="default-element"
-                            onClick={() => handleAddBlock(key)}
+                            onClick={() => handleAddBlock(value)}
                         >
-                            <span>{value.title || value.label}</span>
+                            <span>{value}</span>
                         </p>
                     );
                 })}
@@ -193,51 +177,38 @@ const AntdTree = styled(Tree)`
 export default Layout;
 
 const RenderTitle = ({item}) => {
-    const {state, handleUpdateState, updateElement} = useContext(EditorContext);
-    const [slug, setSlug] = useState(item.slug || "");
+    const {state, updateElement} = useContext(EditorContext);
+    const [id, setId] = useState(item.attrs.id || "");
     const [isEditing, setIsEditing] = useState(false);
-    const inputRef = useRef();
     const refe = useOuterClick(() => {
         setIsEditing(false);
     });
 
     const handleBlur = (value) => {
         value = slugify(value.trim());
-        if (value === item.slug) return;
-        const isSlugMatched = state.elements.find(
-            (item) => item.slug === value
+        if (value === item.attrs.id) return;
+        const isIdMatched = state.elements.find(
+            (item) => item.attrs.id === value
         );
 
-        if (!isSlugMatched) {
-            setSlug(value);
-            let index = state.elements.findIndex((el) => el.id === item.id);
-            const elements = [...state.elements];
-            elements[index] = {...item, slug: value};
-            updateElement(elements);
-            setIsEditing(false);
-            message.success("Slug is updated");
+        if (!isIdMatched) {
+            setId(value);
+            let index = state.elements.findIndex(
+                (el) => el.attrs.id === item.attrs.id
+            );
+
+            if (index >= 0) {
+                const elements = [...state.elements];
+                elements[index] = {...item, attrs: {...item.attrs, id: value}};
+                updateElement(elements);
+                setIsEditing(false);
+                message.success("Slug is updated");
+            }
         } else {
             setIsEditing(false);
             message.error("Slug is not unique");
         }
     };
-
-    const handleSetBlock = (element) => {
-        let idx = state.elements.findIndex((el) => el.id === element.id);
-        if (idx >= 0) {
-            const currentBlock = {
-                idx,
-                data: element,
-            };
-            handleUpdateState({
-                currentBlock: currentBlock,
-                isSidebarActive: true,
-            });
-        }
-    };
-    // useEffect(() => {
-    //     inputRef.current?.focus();
-    // }, [inputRef, isEditing]);
 
     return (
         <div
@@ -251,14 +222,14 @@ const RenderTitle = ({item}) => {
                 <span
                     // onClick={() => handleSetBlock(item)}
                     className="title"
-                    title={item.slug}
+                    title={item.attrs?.id}
                 >
-                    {item.slug}
+                    {item.attrs?.id}
                 </span>
             ) : (
                 <Input
-                    value={slug}
-                    onChange={({target}) => setSlug(target.value)}
+                    value={id}
+                    onChange={({target}) => setId(target.value)}
                     onBlur={({target}) => handleBlur(target.value)}
                     placeholder="Type Unique id"
                 />

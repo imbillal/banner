@@ -1,17 +1,19 @@
-export const makeBoxShadowSetting = ({prefix = "data"} = {}) => {
+export const makeBoxShadowSetting = ({prefix = "attrs"} = {}) => {
     return [
         {
             path: `${prefix}/shadowBlur`,
             content: {
                 template: "Range",
                 label: "Blur",
+                labelPosition: "block",
             },
         },
         {
             path: `${prefix}/shadowOffset`,
             content: {
                 template: "Range",
-                label: "Background Style",
+                label: "shadow Offset",
+                labelPosition: "block",
             },
         },
         {
@@ -19,6 +21,7 @@ export const makeBoxShadowSetting = ({prefix = "data"} = {}) => {
             content: {
                 template: "Range",
                 label: "Horizontal Offset",
+                labelPosition: "block",
             },
         },
         {
@@ -26,6 +29,7 @@ export const makeBoxShadowSetting = ({prefix = "data"} = {}) => {
             content: {
                 template: "Range",
                 label: "Vertical Offset",
+                labelPosition: "block",
             },
         },
         {
@@ -33,6 +37,7 @@ export const makeBoxShadowSetting = ({prefix = "data"} = {}) => {
             content: {
                 template: "Range",
                 label: "Blur",
+                labelPosition: "block",
             },
         },
         {

@@ -7,6 +7,7 @@ import {
     UndoOutlined,
     RedoOutlined,
     CopyOutlined,
+    NodeExpandOutlined,
 } from "@ant-design/icons";
 import {EditorContext} from "../../context/elementContext";
 import {Button} from "antd";
@@ -22,20 +23,43 @@ function EditorHeader() {
     const handleDelete = () => {
         if (!currentBlock) return;
         const _elements = elements.filter(
-            (item) => item.id !== currentBlock.data.id
+            (item) => item.attrs.id !== currentBlock.data.attrs.id
         );
         handleUpdateState({elements: _elements, currentBlock: null});
+    };
+
+    const handleExportJson = () => {
+        const json = {
+            attrs: {
+                ...state.canvasStyle,
+            },
+            className: "Stage",
+            children: [
+                {
+                    attrs: {},
+                    className: "Layer",
+                    children: state.elements.map((element) => {
+                        if (element.className === "Image") {
+                            delete element.attrs.image;
+                            return element;
+                        }
+                        return element;
+                    }),
+                },
+            ],
+        };
+        console.log("billal", {json: json});
     };
 
     const handleDuplicate = () => {
         const newEl = {
             ...currentBlock.data,
-            id: nanoid(12).toString(),
-            slug: currentBlock.data.slug + nanoid(6).toString(),
+            attrs: {
+                ...currentBlock.data.attrs,
+                id: currentBlock.data.attrs.id + nanoid(6).toString(),
+            },
         };
-
         const elements = [...state.elements, newEl];
-
         handleUpdateState({elements: elements});
     };
 
@@ -81,6 +105,13 @@ function EditorHeader() {
                     title="Delete"
                 >
                     <DeleteOutlined style={{fontSize: "20px", color: "red"}} />
+                </Button>
+            </Icon>
+            <Icon onClick={handleExportJson}>
+                <Button className="action-btn" title="export">
+                    <NodeExpandOutlined
+                        style={{fontSize: "20px", color: "red"}}
+                    />
                 </Button>
             </Icon>
         </HeaderWrap>

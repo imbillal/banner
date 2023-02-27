@@ -1,23 +1,18 @@
 import React from "react";
-import {Rect, Star, Image, Circle, Text, Transformer} from "react-konva";
+import {Rect, Star, Circle, Text, Transformer} from "react-konva";
+import URLImage from "./RenderImage";
 const components = {
-    rectangle: Rect,
-    circle: Circle,
-    text: Text,
-    star: Star,
-    image: Image,
+    Rect,
+    Circle,
+    Text,
+    Star,
+    Image: URLImage,
 };
 
 const generateStyle = (style = {}) => {
     if (style._size !== undefined) {
         style.width = style._size;
         style.height = style._size;
-    }
-    if (style._src !== undefined) {
-        const img = new window.Image();
-        img.src = style._src;
-
-        style.image = img;
     }
 
     return {...style};
@@ -29,13 +24,13 @@ const RenderComponent = ({element, isSelected, onSelect, onChange}) => {
 
     React.useEffect(() => {
         if (isSelected && trRef.current) {
-            // we need to attach transformer manually
             trRef.current.nodes([shapeRef.current]);
             trRef.current.getLayer().batchDraw();
         }
     }, [isSelected]);
 
-    const Component = components[element.component];
+    const Component = components[element.className];
+
     if (!Component) return null;
 
     return (
@@ -43,11 +38,11 @@ const RenderComponent = ({element, isSelected, onSelect, onChange}) => {
             <Component
                 onClick={onSelect}
                 ref={shapeRef}
-                {...generateStyle(element.data)}
+                {...generateStyle(element.attrs)}
                 draggable
                 onDragEnd={(e) => {
                     onChange({
-                        ...generateStyle(element.data),
+                        ...generateStyle(element.attrs),
                         x: e.target.x(),
                         y: e.target.y(),
                     });
@@ -65,7 +60,7 @@ const RenderComponent = ({element, isSelected, onSelect, onChange}) => {
                     node.scaleX(1);
                     node.scaleY(1);
                     onChange({
-                        ...generateStyle(element.data),
+                        ...generateStyle(element.attrs),
                         x: node.x(),
                         y: node.y(),
                         // set minimal value

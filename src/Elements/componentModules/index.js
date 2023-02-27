@@ -1,13 +1,13 @@
 import text from "./text";
 import star from "./star";
-import rectangle from "./rectangle";
+import rect from "./rectangle";
 import circle from "./circle";
-import image from "./imge";
+import image from "./image";
 const components = {
     text,
     star,
     circle,
     image,
-    rectangle,
+    rect,
 };
 export default components;
