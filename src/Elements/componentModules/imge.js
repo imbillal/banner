@@ -1,7 +1,19 @@
+import {makeBoxShadowSetting} from "../../utils/makeBoxShadow";
 const image = [
     {
         label: "General Styles",
-        modules: ["data/width", "data/height", "data/opacity"],
+        modules: [
+            {
+                path: "data/_src",
+                content: {
+                    template: "InputURL",
+                    placeholder: "Type Image URl",
+                    label: "URL",
+                },
+            },
+            "data/width",
+            "data/height",
+        ],
     },
     {
         label: "Background",
@@ -16,10 +28,7 @@ const image = [
                     label: "Shadow Enabled",
                 },
             },
-            "data/shadowOffsetX",
-            "data/shadowOffsetY",
-            "data/shadowBlur",
-            "data/shadowColor",
+            ...makeBoxShadowSetting(),
         ],
     },
     {

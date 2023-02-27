@@ -60,32 +60,6 @@ const RenderElements = ({elements = []}) => {
             const {elements} = element.group;
             return <RenderElements elements={elements} />;
         } else {
-            if (element.type === "image") {
-                return (
-                    <RenderImage
-                        key={idx}
-                        isSelected={element.id === state.currentBlock?.data.id}
-                        onSelect={() => {
-                            handleSetBlock(element, idx);
-                        }}
-                        element={element}
-                        onChange={(newAttrs) => {
-                            console.log("billal", {newAttrs});
-
-                            let _block = {
-                                idx,
-                                data: {
-                                    ...state.elements[idx],
-                                    data: newAttrs,
-                                },
-                            };
-
-                            updateCurrentBlock(_block);
-                        }}
-                    />
-                );
-            }
-
             return (
                 <RenderComponent
                     key={idx}

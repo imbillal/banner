@@ -11,10 +11,12 @@ import ColorPicker from "./ColorPicker";
 import ComponentPosition from "./ComponentPosition";
 import Switch from "./Switch";
 import Size from "./Size";
+import InputURL from "./InputURL";
 
 const components = {
     Input,
     Size,
+    InputURL,
     Textarea,
     Range,
     Select,

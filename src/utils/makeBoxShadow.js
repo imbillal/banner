@@ -1,4 +1,4 @@
-export const makeBoxShadowSetting = ({prefix = "style"}) => {
+export const makeBoxShadowSetting = ({prefix = "data"} = {}) => {
     return [
         {
             path: `${prefix}/shadowBlur`,

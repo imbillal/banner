@@ -5,7 +5,7 @@ import {WrapperWithLabel} from "./sharedStyledComponent";
 
 function Range({path, value: inputValue, onChange, step = 1, ...rest}) {
     const handleChange = (value) => {
-        onChange({path, value: parseFloat(value)});
+        onChange({path, value: parseFloat(value || 0)});
     };
 
     return (

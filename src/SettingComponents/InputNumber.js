@@ -5,7 +5,7 @@ import {WrapperWithLabel} from "./sharedStyledComponent";
 
 function InputNumberComp({path, value, label, onChange, ...rest}) {
     const handleChange = (value) => {
-        onChange({path, value: parseFloat(value)});
+        onChange({path, value: parseFloat(value || 0)});
     };
     return (
         <WrapperWithLabel>

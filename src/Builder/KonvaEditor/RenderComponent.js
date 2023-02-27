@@ -13,6 +13,13 @@ const generateStyle = (style = {}) => {
         style.width = style._size;
         style.height = style._size;
     }
+    if (style._src !== undefined) {
+        const img = new window.Image();
+        img.src = style._src;
+
+        style.image = img;
+    }
+
     return {...style};
 };
 
